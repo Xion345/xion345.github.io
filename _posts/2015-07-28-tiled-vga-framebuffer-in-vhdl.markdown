@@ -37,7 +37,7 @@ tags: vhdl
 This post shows how to implement a simple tiled VGA framebuffer in VHDL.
 It allows an FPGA to display a picture on a screen, provided that the picture
 is composed of repeated patterns, named *tiles*. Tiled framebuffers have much
-lower memory requirements than classic pixel framebuffers which makes it possible
+lower memory requirements than direct framebuffers which makes it possible
 to implement them using only the FPGA internal block RAM and without requiring
 external memory elements. The tiled frambuffer presented in the post requires
 35KiB of memory to display a picture on a 640x480 screen (8 bits per pixel)
@@ -118,7 +118,12 @@ corresponding cell.
 
 [VGA CRT Picture]
 
-CRT screens shifted right the three electron beams *pixel rate* (or *pixel clock*).
+CRT screens shifted right the three electron beams by one pixel at each tick of the
+*pixel clock* (or *pixel rate*).
+
+[VGA Retrace Figure]
+
+**FIXME**
 
 ### Obtaining VGA Timing Information ###
 
@@ -126,7 +131,7 @@ This is the easy part, right? Well not quite. VGA timings are standardized and
 published by the Video Electronics Standards Association (VESA — you probably have
 heard this name before), but you have to pay to obtain these specifications. But you
 know what might have happened? Some people might have bought the VESA specification, and
-received an nice PDF. And they might have uploaded it to there FTP, because you know,
+received an nice PDF. And they might have uploaded it to their FTP, because you know,
 an FTP is convenient to share documents with your coworkers. And the FTP contents might
 be exposed over HTTP to the whole Internet. And content might have been indexed by Google.
 Just speculating here, but this kind of stuff could have happened.
@@ -206,15 +211,82 @@ to do so :
 
 ### Principles ###
 
-    pixel_framebuffer_mem = screen_width * screen_height * pixel_depth
-    # 640x480 8-bits
-    pixel_frambuffer_mem = 640 * 480 * 8 = 300 KiB
-    # 800x600 8-bits
-    pixel_frambuffer_mem = 800 * 600 * 8 = ~469 KiB
+Direct framebuffers (or bitmap framebuffers) simply contain the color associated
+with each pixel of the screen. They offer the best versality — they allow displaying
+absolutely any picture — but they have rather high memory requirements:
 
+    direct_frambuffer_mem = screen_width * screen_height * pixel_depth
+    # 640x480 - 1 Byte per pixel (8 bits)
+    direct_frambuffer_mem = 640 * 480 * 1 = 300 KiB
+    # 800x600 - 1 Byte per pixel (8 bits)
+    direct_frambuffer_mem = 800 * 600 * 1 = ~469 KiB
+
+It would be possible to implement a direct framebuffer on the Digilent Nexys3 using the
+external 16MB CellularRAM, but it would require designing a RAM controller. Moreover,
+using the CellularRAM as a direct framebuffer would consume an important part of
+the memory bandwidth, which would not be available for other components such as a CPU.
+
+FPGAs include easy-to-use synchronous memory named Block RAM, but it comes in limited
+capacity. The Spartan-6 XC6SLX16 FPGA on the Digilent Nexys3 has 576Kbit Block RAM,
+or 72KiB ([Spartan 6 Product Table](http://www.xilinx.com/publications/prod_mktg/Spartan6_Product_Table.pdf)).
+It is thus impossible to implement a direct framebuffer using the FPGA Block RAM.
+
+Tiled framebuffer have lower memory requirements than direct framebuffers, which makes
+it possible to implement them using Block RAM. They were used on old game consoles,
+such as the GameBoy ([GameBoy Graphics](http://imrannazar.com/GameBoy-Emulation-in-JavaScript:-Graphics)),
+when large amounts of memory were not cheap.
+
+Tiled frambuffers divide the screen into *zones* and display a *tile* (or pattern) chosen
+from a bank on each zone. In this project we use 8x16 pixels *tiles* and *zones*
+(zones and tiles are always the same size), and the bank holds 256 tiles. A tiled framebuffer
+stores the *index* (or *reference*) of the tile which should be displayed in each zone in an
+*index memory*. It also stores all tiles, ie the colors of all pixels of each tile in a
+*tile memory*.
 
 [Image divided into tiles]
 
-### Memory Elements ###
+The memory requirements of a tiled framebuffer are as follows
+
+    # 256 tiles
+    nb_tiles = 256 # Number of different tiles
+    bit_width(x) -> Number of bits necessary to represent x
+    bit_width(nb_tiles) = 8 bits = 1 Byte
+
+    # 8x16 tiles
+    tile_width = 8
+    tile_height = 16
+    tile_size = tile_width*tile_height = 8*16 = 128 B
+
+    # 640x480 screen
+    # Width of the screen in zones
+    nb_zones_width = screen_width/tile_width = 80
+    # Height of the screen in tiles
+    nb_zones_height = screen_height/tile_height = 30
+
+    # Index memory
+    # Stores the index (reference) of the tile displayed
+    # in each zone
+    # 1 Byte in the size of 1 index, ie bit_width(nb_tiles)
+    index_mem = nb_zones_width * nb_zones_height * 1
+              = 80 * 30
+              = ~2.4 KiB
+
+    # Tiles memory
+    # Stores the colors of each pixels of each of the 256 tiles
+    tiles_mem = nb_tiles * tile_width * tile_height * 1
+              = 256 * 8 * 16
+              = 32 KiB
+
+    # Total memory
+    tiled_framebuffer_mem = index_mem + tiles_mem
+                          = 32 KiB + 2.4 KiB
+                          = 34.4 KiB
 
 ### Design Description and Use ###
+
+- Xilinx Export
+- Memory elements (links to VHDL instantiation)
+- Indexes
+- Number of cycles
+
+- Python script
