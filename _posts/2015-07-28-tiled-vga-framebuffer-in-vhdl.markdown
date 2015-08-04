@@ -41,7 +41,7 @@ lower memory requirements than classic pixel framebuffers which makes it possibl
 to implement them using only the FPGA internal block RAM and without requiring
 external memory elements. The tiled frambuffer presented in the post requires
 35KiB of memory to display a picture on a 640x480 screen (8 bits per pixel)
-where a classic pixel framebuffer would require 307KiB of memory.
+where a classic pixel framebuffer would require 300KiB of memory.
 
 You can see it in action below:
 
@@ -154,11 +154,12 @@ Some are computed using formulas
 <!-- Dire que ça simplifie la configuration de l'ordianteur -->
 Fairly recent monitors are able to transmit the list of VGA timings they support to
 the host graphics adapter via a standard called EDID (Extended Display Identification Data).
-We cannot read EDID from the FPGA because it is transmitting via pin 9 (DDC) of the
-VGA connector, which is unconnected on the Digilent Nexys3 board. Besides, EDID packets
-are somehow tedious to parse. However, it is possible to read your monitor EDID information
-from your computer. This is probably the easiest way to retrieve the list of
-supported VGA timings your monitor supports. Under Linux/Xorg, you can use `xrandr --verbose`
+We cannot read EDID from the FPGA because it is transmitted via pin 4,11,12 and 15 of the
+VGA connector, which are unconnected on the Digilent Nexys3 board
+([EDID - Extron Electronics](http://www.extron.com/company/article.aspx?id=uedid)). Besides, EDID packets
+are somewhat tedious to parse. However, it is possible to read your monitor EDID information
+from your computer, which is probably the easiest way to retrieve the list of VGA timings
+your monitor supports. Under Linux/Xorg, you can use `xrandr --verbose`
 to do so :
 
     $ xrandr --verbose # Dell 22" Monitor
@@ -199,11 +200,20 @@ to do so :
 
 ### Graphics Controller Design ###
 
+[Picture about design]
+
 ## Tiled Framebuffer ##
 
-[Image divided into tiles]
-
 ### Principles ###
+
+    pixel_framebuffer_mem = screen_width * screen_height * pixel_depth
+    # 640x480 8-bits
+    pixel_frambuffer_mem = 640 * 480 * 8 = 300 KiB
+    # 800x600 8-bits
+    pixel_frambuffer_mem = 800 * 600 * 8 = ~469 KiB
+
+
+[Image divided into tiles]
 
 ### Memory Elements ###
 
