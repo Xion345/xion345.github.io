@@ -85,6 +85,7 @@ pictures on the screen.
 ## VGA Video ##
 
 ### VGA Signals and Timings ###
+
 Video information transmitted to the screen via a VGA port is conveyed by five
 separate signals:
 
@@ -94,8 +95,8 @@ separate signals:
 - Hsync (Horizontal Synchronisation)
 - Vsync (Vertical Synchronisation)
 
-The red, green and blue signals are analog signals (0-0.7V), which respectively represents
-the intensity of red, green and blue. The Digilent Nexys3 board
+The red, green and blue signals are analog signals (0-0.7V), which respectively
+represents the intensity of red, green and blue. The Digilent Nexys3 board
 includes a simple resistor-based DAC (Digital to Analog Converter), so the FPGA
 only has to output digital signals for the three colors. The DAC supports 3 bits
 for red intensity, 3 bits for green intensity and 2 bits for blue intensity, so
@@ -106,7 +107,14 @@ The Hsync (Horizontal Synchronisation) and VSync (Vertical Synchronisation)
 tell the screen that the FPGA has finished transmitting a line of
 pixels, or a full screen, respectively.
 
-Indeed,
+Indeed, when the VGA interface was designed, screen were based on Cathode Ray
+Tubes (CRT) and video information was displayed by sending three electron beams
+to the back of the front surface of the screen. Each pixel on the screen was
+composed of three "cells" — one cell for red, one for green, one for blue. The
+red, green and blue signals controlled the amount of electrons sent to each
+corresponding cell.
+
+[VGA Picture]
 
 ### Obtaining VGA Timing Information ###
 
