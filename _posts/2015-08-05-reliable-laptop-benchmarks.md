@@ -21,7 +21,7 @@ with the parameter value until a point where it collapses. The goal is to find
 the turning point.
 
 My laptop has an Intel [Core i7 4810MQ](http://ark.intel.com/products/78937/Intel-Core-i7-4810MQ-Processor-6M-Cache-up-to-3_80-GHz)
-built in which is perfect to run into issues. Tts frequency goes from 2.8Ghz 
+built in which is perfect to run into issues. Its frequency goes from 2.8Ghz
 all the way up to 3.8GHz (+1Ghz !) in turbo mode. So with this processor, I can be 
 100% sure I will run into frequency scaling issues.
 
@@ -46,12 +46,12 @@ To change your frequency scaling governor:
 
 ### Naive approaches ###
 
-Lets start by naively running the full set of experiments
+Let's start by naively running the full set of experiments
 
     $ ./runner.py
 
 Oh, and by the way, before you start fainting, the `runner.py` python script is
-just a wrapper which runs my algorithm — again,  implemented in C++ — for each 
+just a wrapper which runs my algorithm — again, implemented in C++ — for each
 value of the parameter. I am *not* benchmarking the CPU run time of a Python script.
 And… look at the nice graph I get:
 
@@ -79,7 +79,7 @@ So, possible causes:
 *Frequency scaling down because of excessive heat*  
 However, frequency is expected to stabilize
 at some point in the experiment as a function of room temperature and maximum fan speed.
-It would explain a countinuous decrease in performance during the experiment but 
+It would explain a continuous decrease in performance during the experiment but
 not this dent.
 
 *Process moved to another core by the scheduler*  
