@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I am known as Xion345 on the Internet, or Fabien André in real life. I am a failed
+I am Xion345 — or Fabien André in real life. I am a failed
 PhD student or, in other words, a software engineer struggling to deal with the
 insanity of a PhD program. I occasionally blog on my weekend projects or 
 interesting issues I come across at work.
