@@ -18,6 +18,7 @@ platforms (Hadoop, Spark and the like). As I never have enough, I am doing a
 I am all over the Internet, you can find me on:
 
 - [Twitter](https://twitter.com/_Xion345)
+- [Hacker News](https://news.ycombinator.com/threads?id=Xion345)
 - [Github](https://github.com/Xion345)
 - [LinkedIn](https://github.com/Xion345)
 - [Stackoverflow](http://stackoverflow.com/users/955170/xion345)
