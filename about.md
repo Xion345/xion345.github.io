@@ -12,7 +12,7 @@ interesting issues I come across at work.
 Mostly interested in designing and implementing hardware-friendly algorithms, I 
 am getting to know SIMD instructions by heart or awkward details about processors. 
 I am also mildly obsessed about compilers, JIT compilers and large-scale computing 
-platforms (Hadoop, Spark and the like). As I never I have enough, I am doing a
+platforms (Hadoop, Spark and the like). As I never have enough, I am doing a
 [little bit of VHDL](https://github.com/Xion345/fpga-projects) during my free time.
 
 I am all over the Internet, you can find me on:
