@@ -171,3 +171,5 @@ Next directions:
 - Wait between each point for CPU temperature to decrase
 - Monitoring frequency, CPU temperature during the benchmark to correlate with
     performance decrease.
+
+[Comments on Hacker News](https://news.ycombinator.com/item?id=10012933)
