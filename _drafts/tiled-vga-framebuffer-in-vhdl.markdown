@@ -1,7 +1,6 @@
 ---
 layout: post
 title:  "Tiled VGA Framebuffer in VHDL"
-date:   2015-07-28 16:35:55
 tags: vhdl
 ---
 
