@@ -15,7 +15,7 @@ of pain you are about to enter.
 
 ## Setup ##
 
-I am benchmarking the speed of an *single-core* algorithm implemented in C++ 
+I am benchmarking the speed of a *single-core* algorithm implemented in C++
 which varies depending on a parameter. I expect the speed to increase *very slightly* 
 with the parameter value until a point where it collapses. The goal is to find 
 the turning point.
