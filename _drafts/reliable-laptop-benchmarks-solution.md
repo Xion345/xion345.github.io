@@ -18,8 +18,10 @@ your experimental results. One solution to this issue is to measure CPU cycles
 instead of execution time, but execution time is often a more meaningful
 measure. In this post, I give advice to mitigate these two factors and thus
 benchmark execution times on laptops in a
-*reliable* and *repeatable* way. Advice on preventing scheduling events remains
-relevant when benchmarking execution times on workstations or servers.
+*reliable* and *repeatable* way. This will hopefully save you some of the
+[pain I went through]({% post_url 2015-08-05-reliable-laptop-benchmarks %}).
+Preventing scheduling events remains relevant when runnings benchmarks on
+workstations or servers.
 
 * TOC
 {:toc}
@@ -30,7 +32,7 @@ It is often useful to measure the execution time of CPU intensive programs,
 for instance to evaluate the sensitivity of an algorithm to a parameter, or
 compare two algorithms. If you don't take into account the variability caused
 by *scheduling events* and *frequency scaling events*, you will obtain
-inconsistencies in your results, as shown below:
+discrepancies in your results, as shown below:
 
 <img src="/assets/laptop-benchmarks/web-keep-0-edited.png" width="500" class="center-image" />
 
@@ -49,7 +51,7 @@ on workstations and servers.
 ones — change the frequency of each of their cores based on their current temperature
 so that they don't exceed their TDP (Thermal Design Power), the
 maximum amount of heat they are allowed to dissipate. Although this issue affects
-all processors, this issue is more salient of laptops for two reasons. Laptop cooling
+all processors, this issue is more salient on laptops for two reasons. Laptop cooling
 systems don't dissipate heat as effectively as those of workstations or servers, and
 laptop processors have lower TDPs that workstation or server ones. In other words,
 your laptop is not designed to run at full speed for long periods — only to offer
@@ -60,7 +62,7 @@ realize that the core you are running your benchmark on is getting hot and
 is thus decreasing its frequency. It will therefore move your process to another
 cooler and idling core, which can run at a higher frequency. Overall, this causes (i) the frequency to
 change, (ii) the branch predictor to be reset, (iii) caches to be flushed. No
-wonder you get inconsistencies!
+wonder you get discrepancies!
 
 This post focuses on benchmarks which are:
 
@@ -94,7 +96,7 @@ the scheduler to schedule anything but your benchmark on this core. This can be 
 handled using the [`cset`](https://rt.wiki.kernel.org/index.php/Cpuset_Management_Utility/tutorial)
 command line tool.
 
-If your laptop has hyperthreading enabled (if it is equipped with a Core i7), you
+If your laptop has hyperthreading enabled (e.g., if it is equipped with a Core i7), you
 need to reserve a *full physical* core, and not only one logical core, or hyperthread.
 If your reserve only one hyperthread, the scheduler may schedule other processes
 than your benchmark on the other hyperthread of the physical core, which will
@@ -195,10 +197,22 @@ accumulated in your laptop case and you need to wait more.
 I therefore decided to wait for my laptop fan to go below 3600 RPM — you may
 need to adjust this value to your laptop.
 
-You can find [in this gist](https://gist.github.com/Xion345/af6ee03942ed4c8d511e),
-the Python script I used to parse `sensors` command output.
+    def wait_fan():
+        fan = sensors_temperature().fan
+        while fan > 3600:
+            print "Waiting for fan speed to go below 3600 RPM"
+            fan = sensors_temperature().fan
+            sleep(10)
 
+    # [...]
 
-This advice should be enough to get you sorted — unless you have a NUMA laptop, and in this
-case… Wow. Just wow.
+    for point in experiment:
+        wait_fan()
+        do_point(point)
+
+You can find the Python script I used to parse the `sensors` command output (see
+`sensors_temperature()` function) [in this gist](https://gist.github.com/Xion345/af6ee03942ed4c8d511e).
+
+In conclusion, this advice should be enough to get you sorted — unless you have
+a NUMA laptop, and in this case… Wow. Just wow.
 
