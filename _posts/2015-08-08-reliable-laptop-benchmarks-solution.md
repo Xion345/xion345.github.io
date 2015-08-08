@@ -216,3 +216,4 @@ You can find the Python script I used to parse the `sensors` command output (see
 In conclusion, this advice should be enough to get you sorted — unless you have
 a NUMA laptop, and in this case… Wow. Just wow.
 
+[Comments on Hacker News](https://news.ycombinator.com/item?id=10028735)
