@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Repeatable single-core CPU intensive benchmarks — laptop edition"
+title:  "Repeatable single-core benchmarks — laptop edition"
 ---
 
 <!--
