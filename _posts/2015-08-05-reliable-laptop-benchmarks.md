@@ -10,6 +10,11 @@ else: on a workstation, on a server, on your smartphone—well maybe not. Ok, yo
 are doing it anyway, right? Well, I am doing it anyway. Let me describe the world 
 of pain you are about to enter.
 
+**Update 2015-08-09:** I describe a somehow acceptable solution to issues listed
+here in this [new post]({% post_url 2015-08-08-reliable-laptop-benchmarks-solution %}),
+so you might want to jump to it directly. Unless you want to know all the
+different ways in which you can fail.
+
 * TOC
 {:toc}
 
