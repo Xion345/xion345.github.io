@@ -3,7 +3,7 @@ layout: page
 title: About
 permalink: /about/
 ---
-I am Xion345 — or Fabien André in real life. After completing a masters in software enginerring, I moved on to a PhD in multimedia databases. I occasionally blog on my weekend projects or interesting issues I come across at work.
+I am Xion345 — or Fabien André in real life. After completing a masters in software enginering, I moved on to a PhD in multimedia databases. I occasionally blog on my weekend projects or interesting issues I come across at work.
 
 Fond of system software, I am enthralled by compilers, databases and distributed computing platforms (Hadoop, Spark and the likes). Over the last years, I designed and implemented hardware-friendly algorithms, which lead me to know SIMD instructions by heart or awkward details about processors. As I never have enough, I am doing a [little bit of VHDL](https://github.com/Xion345/fpga-projects) during my free time.
 
