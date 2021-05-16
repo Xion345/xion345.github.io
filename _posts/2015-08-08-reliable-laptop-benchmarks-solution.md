@@ -211,7 +211,7 @@ need to adjust this value to your laptop.
         do_point(point)
 
 You can find the Python script I used to parse the `sensors` command output (see
-`sensors_temperature()` function) [in this gist](https://gist.github.com/Xion345/af6ee03942ed4c8d511e).
+`sensors_temperature()` function) [in this gist](https://gist.github.com/fandre90/af6ee03942ed4c8d511e).
 
 In conclusion, this advice should be enough to get you sorted — unless you have
 a NUMA laptop, and in this case… Wow. Just wow.
